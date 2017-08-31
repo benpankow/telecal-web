@@ -1,19 +1,24 @@
 from flask import Flask
+from flask import request
 from datetime import datetime
 app = Flask(__name__)
 
+results = []
+
 @app.route('/')
 def homepage():
-	the_time = datetime.now().strftime("%A, %d %b %Y %l:%M %p")
-	page = request.args.get("page")
-	if page == None:
-		page = "five"
-	return """
-	<h1>Hello heroku</h1>
-	<p>It is currently {time}. {page}</p>
+	global results
+	code = request.args.get("code")
+	if code != None and not code in results:
+		results += code
+	return """Thank you, you are now authorized!"""
 
-	<img src="http://loremflickr.com/600/400">
-	""".format(time=the_time, page=page)
+@app.route('/results/')
+def res():
+	s = ''
+	for r in results:
+		s = s + r
+	return s
 
 if __name__ == '__main__':
 	app.run(debug=True, use_reloader=True)

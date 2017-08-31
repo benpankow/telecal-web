@@ -9,15 +9,16 @@ results = []
 def homepage():
 	global results
 	code = request.args.get("code")
-	if code != None and not code in results:
-		results += code
+	user = request.args.get("user")
+	if code != None and not code in results and user != None:
+		results.append((user, code))
 	return """Thank you, you are now authorized!"""
 
 @app.route('/results/')
 def res():
 	s = ''
 	for r in results:
-		s = s + r
+		s = s + r[0] + "," + r[1] + "\n"
 	return s
 
 if __name__ == '__main__':

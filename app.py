@@ -9,7 +9,7 @@ results = []
 def homepage():
 	global results
 	code = request.args.get("code")
-	user = request.args.get("user")
+	user = request.args.get("state")
 	if code != None and not code in results and user != None:
 		results.append((user, code))
 	return """Thank you, you are now authorized!"""
